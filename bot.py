@@ -1,3 +1,4 @@
+import os
 import asyncio
 import logging
 from aiogram import Bot, Dispatcher, types
@@ -7,8 +8,9 @@ from aiogram.fsm.state import State, StatesGroup
 from aiogram.fsm.storage.memory import MemoryStorage
 
 # --- НАСТРОЙКИ ---
-BOT_TOKEN = "ВАШ_ТОКЕН_СЮДА"   # Вставьте токен от BotFather (в кавычках!)
-ADMIN_ID = 8553406744           # Вставьте ваш ID от @userinfobot (БЕЗ кавычек!)
+# Берем токен из переменных окружения (на Render), или используем заглушку для локального теста
+BOT_TOKEN = os.getenv("BOT_TOKEN", "ВАШ_ТОКЕН_СЮДА") 
+ADMIN_ID = 8553406744 # Ваш ID (он правильный на скриншоте)
 
 logging.basicConfig(level=logging.INFO)
 
@@ -58,9 +60,7 @@ async def process_interest(message: types.Message, state: FSMContext):
     )
     await bot.send_message(ADMIN_ID, text_to_admin)
 
-    await message.answer(
-        "Спасибо! Ваша заявка принята. Мы свяжемся с вами."
-    )
+    await message.answer("Спасибо! Ваша заявка принята. Мы свяжемся с вами.")
     await state.clear()
 
 async def main():
